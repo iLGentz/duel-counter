@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101416">
+  <meta name="description" content="Due giocatori. Un telefono. Un contatore Life Points elegante, gratuito e offline per i tuoi duelli di Yu-Gi-Oh!.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Duel — Life Point Counter</title>
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./style.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-mark" viewBox="0 0 24 24"><path d="m12 2 8 10-8 10-8-10Z M12 7l4 5-4 5-4-5Z"/></symbol>
+    <symbol id="i-undo" viewBox="0 0 24 24"><path d="m8 4-5 5 5 5 M3 9h10a7 7 0 0 1 0 14" transform="translate(1 -2)"/></symbol>
+    <symbol id="i-history" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M4 9a8 8 0 0 1 14-3l2 2 M20 3v5h-5 M20 15a8 8 0 0 1-14 3l-2-2 M4 21v-5h5"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="m12 3 8 9-8 9-8-9Z M8 12h8 M12 8v8"/></symbol>
+    <symbol id="i-sound" viewBox="0 0 24 24"><path d="M11 4 6 8H3v8h3l5 4Z M15 8a6 6 0 0 1 0 8 M18 4a11 11 0 0 1 0 16"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="m16 3 5 5-12 12-6 1 1-6Z M13 6l5 5"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12 M18 6 6 18"/></symbol>
+  </svg>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand"><svg class="icon brand-mark"><use href="#i-mark"/></svg><h1>DUEL<span>Life Point Counter</span></h1></div>
+      <div class="top-actions"><span id="save-status" class="save-status">Sul dispositivo</span><button id="audio-toggle" class="audio-toggle" type="button" aria-label="Attiva audio" aria-pressed="false"><svg class="icon"><use href="#i-sound"/></svg><span id="audio-label">Audio off</span></button></div>
+    </header>
+    <main class="arena" aria-label="Life Points dei due giocatori">
+      <section class="player player-one" data-player="0" aria-labelledby="name-0">
+        <div class="player-inner">
+          <div class="player-heading"><span class="player-index">01</span><button class="name-button" data-name="0" type="button" aria-label="Modifica nome Player 1"><span id="name-0">Player 1</span><svg class="icon"><use href="#i-edit"/></svg></button><span class="player-tag">DUELIST</span></div>
+          <div class="score-block"><span class="eyebrow">LIFE POINTS</span><button class="score" data-edit="0" type="button" aria-label="Modifica Life Points di Player 1"><span id="lp-0">8000</span></button><div class="life-track" aria-hidden="true"><span id="bar-0"></span></div><p class="player-status" id="status-0">Pronto al duello</p></div>
+          <div class="controls"><div class="quick-actions" role="group" aria-label="Sottrazioni rapide Player 1"><button type="button" data-quick="100" data-for="0">−100</button><button type="button" data-quick="500" data-for="0">−500</button><button type="button" data-quick="1000" data-for="0">−1000</button></div><div class="main-actions"><button class="subtract" type="button" data-operation="subtract" data-for="0"><span>−</span> Sottrai</button><button type="button" data-operation="add" data-for="0"><span>+</span> Aggiungi</button></div></div>
+        </div>
+      </section>
+      <div class="versus" aria-hidden="true">VS</div>
+      <section class="player player-two" data-player="1" aria-labelledby="name-1">
+        <div class="player-inner">
+          <div class="player-heading"><span class="player-index">02</span><button class="name-button" data-name="1" type="button" aria-label="Modifica nome Player 2"><span id="name-1">Player 2</span><svg class="icon"><use href="#i-edit"/></svg></button><span class="player-tag">DUELIST</span></div>
+          <div class="score-block"><span class="eyebrow">LIFE POINTS</span><button class="score" data-edit="1" type="button" aria-label="Modifica Life Points di Player 2"><span id="lp-1">8000</span></button><div class="life-track" aria-hidden="true"><span id="bar-1"></span></div><p class="player-status" id="status-1">Pronto al duello</p></div>
+          <div class="controls"><div class="quick-actions" role="group" aria-label="Sottrazioni rapide Player 2"><button type="button" data-quick="100" data-for="1">−100</button><button type="button" data-quick="500" data-for="1">−500</button><button type="button" data-quick="1000" data-for="1">−1000</button></div><div class="main-actions"><button class="subtract" type="button" data-operation="subtract" data-for="1"><span>−</span> Sottrai</button><button type="button" data-operation="add" data-for="1"><span>+</span> Aggiungi</button></div></div>
+        </div>
+      </section>
+    </main>
+    <nav class="toolbar" aria-label="Comandi del duello">
+      <button id="undo" type="button" disabled><svg class="icon"><use href="#i-undo"/></svg><span>Undo</span></button>
+      <button id="history" type="button"><svg class="icon"><use href="#i-history"/></svg><span>Cronologia</span><span id="history-count" class="count" hidden>0</span></button>
+      <button id="rotate" type="button" aria-label="Ruota Player 2 in verticale" aria-pressed="false"><svg class="icon"><use href="#i-rotate"/></svg><span>Ruota P2</span></button>
+      <button id="reset" type="button"><svg class="icon"><use href="#i-reset"/></svg><span>Nuovo duello</span></button>
+    </nav>
+  </div>
+  <dialog id="calculator" class="modal calculator" aria-labelledby="calc-title">
+    <div class="modal-heading"><div><span class="eyebrow" id="calc-player">Player 1</span><h2 id="calc-title">Sottrai Life Points</h2></div><button class="icon-button" data-close type="button" aria-label="Chiudi tastierino"><svg class="icon"><use href="#i-close"/></svg></button></div>
+    <div class="calculator-body"><div class="calculator-summary"><div class="operation-switch" role="group" aria-label="Tipo di modifica"><button id="mode-subtract" type="button" aria-pressed="true">− Sottrai</button><button id="mode-add" type="button" aria-pressed="false">+ Aggiungi</button></div><output id="amount" class="amount" aria-label="Importo inserito" aria-live="polite">0</output><p id="preview" class="preview">8000 → 8000 LP</p><p id="calc-error" class="form-message" role="status"></p></div>
+      <div class="keypad" role="group" aria-label="Tastierino numerico"><button type="button" data-key="1">1</button><button type="button" data-key="2">2</button><button type="button" data-key="3">3</button><button type="button" data-key="4">4</button><button type="button" data-key="5">5</button><button type="button" data-key="6">6</button><button type="button" data-key="7">7</button><button type="button" data-key="8">8</button><button type="button" data-key="9">9</button><button type="button" data-key="clear" aria-label="Cancella importo">C</button><button type="button" data-key="0">0</button><button type="button" data-key="backspace" aria-label="Cancella ultima cifra">⌫</button></div>
+    </div><button id="apply" class="primary-button" type="button" disabled>Inserisci un importo</button>
+  </dialog>
+  <dialog id="name-dialog" class="modal" aria-labelledby="name-title"><form id="name-form"><div class="modal-heading"><h2 id="name-title">Nome del giocatore</h2><button class="icon-button" type="button" data-close aria-label="Chiudi modifica nome"><svg class="icon"><use href="#i-close"/></svg></button></div><label for="name-input">Come ti chiami?</label><input id="name-input" type="text" maxlength="24" autocomplete="off" enterkeyhint="done" required><p class="helper">Fino a 24 caratteri. Tocca il nome per cambiarlo.</p><button class="primary-button" type="submit">Salva nome</button></form></dialog>
+  <dialog id="history-dialog" class="modal history-modal" aria-labelledby="history-title"><div class="modal-heading"><div><span class="eyebrow">QUESTO DUELLO</span><h2 id="history-title">Cronologia</h2></div><button class="icon-button" type="button" data-close aria-label="Chiudi cronologia"><svg class="icon"><use href="#i-close"/></svg></button></div><p id="history-empty" class="empty-state">Il duello è appena iniziato.<br>Le variazioni di LP appariranno qui.</p><ol id="history-list" class="history-list" reversed></ol><p class="helper">Ultime azioni in alto. Undo rimuove l'ultima variazione.</p></dialog>
+  <dialog id="reset-dialog" class="modal" aria-labelledby="reset-title"><div class="modal-heading"><h2 id="reset-title">Un nuovo duello?</h2><button class="icon-button" data-close type="button" aria-label="Chiudi conferma"><svg class="icon"><use href="#i-close"/></svg></button></div><p class="reset-description">Entrambi ripartiranno da <strong id="initial-lp">8000 LP</strong>. La cronologia sarà cancellata e i nomi resteranno salvati.</p><p class="helper">Il reset non può essere annullato.</p><div class="dialog-actions"><button type="button" data-close autofocus>Continua duello</button><button id="confirm-reset" class="primary-button" type="button">Nuovo duello</button></div></dialog>
+  <div id="announcer" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+  <noscript><div class="noscript">Attiva JavaScript nel browser per utilizzare il contatore.</div></noscript>
+</body>
+</html>
