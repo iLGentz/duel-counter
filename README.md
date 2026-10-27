@@ -1,5 +1,7 @@
 # Duel — Yu-Gi-Oh! Life Point Counter
 
+https://ilgentz.github.io/duel-counter/
+
 Un contatore Life Points per due persone che condividono lo stesso smartphone. Interfaccia originale scura, ambra e azzurro, senza artwork, carte o loghi ufficiali. Progetto indipendente, non affiliato a Konami.
 
 **Pronto all'uso: apri `index.html`.** HTML, CSS e JavaScript vanilla: nessun framework, installazione di pacchetti, backend, account, database o servizio esterno. Tutti gli asset sono locali.
