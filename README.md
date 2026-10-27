@@ -7,9 +7,10 @@ Un contatore Life Points per due persone che condividono lo stesso smartphone. I
 ## Funzionalità
 
 - Due giocatori, inizialmente a **8000 LP**.
-- Portrait: Player 1 sopra e Player 2 sotto. **Ruota P2** ruota di 180° pannello, controlli e finestre personali del secondo giocatore. La rotazione è inizialmente disattivata.
+- Portrait: Player 1 sopra e Player 2 sotto. **Ruota P1** ruota di 180° pannello, controlli e finestre personali del primo giocatore, per chi siede di fronte. La rotazione è inizialmente disattivata.
 - Landscape: Player 1 a sinistra e Player 2 a destra, entrambi dritti. La preferenza di rotazione torna attiva passando in portrait. Non serve ricaricare.
 - Sottrazioni immediate di 100, 500 e 1000 LP; tastierino per sottrarre o aggiungere importi personalizzati. Anche toccare il numero apre il tastierino.
+- **÷2 · Dimezza** divide per due l'importo digitato, anche più volte, aggiornando l'anteprima senza applicare la modifica ai LP. Gli importi dispari vengono arrotondati per difetto; senza importo il tasto è disattivato.
 - Anteprima del risultato prima della conferma. Sei cifre al massimo; intervallo LP 0–999999. Gli importi eccessivi si fermano al limite, annunciato nel tastierino.
 - Nomi modificabili toccandoli, fino a 24 caratteri.
 - Undo consecutivi e cronologia delle variazioni effettive con nome al momento dell'azione, orario e risultato.
@@ -97,7 +98,7 @@ Riferimenti: [service worker e cache offline](https://developer.mozilla.org/en-U
 ## Tastiera e accessibilità
 
 - **Tab / Shift+Tab**: naviga tra i controlli; **Invio / Spazio**: attiva i pulsanti.
-- Nel tastierino: cifre **0–9**, **Backspace**, **Delete** per cancellare tutto, **+ / −** per scegliere l'operazione, **Invio** per confermare.
+- Nel tastierino: cifre **0–9**, **Backspace**, **Delete** per cancellare tutto, **+ / −** per scegliere l'operazione, **/** per dimezzare l'importo, **Invio** per confermare.
 - **Esc** chiude un dialogo senza applicare modifiche. I dialoghi mantengono il focus al loro interno e lo restituiscono al controllo di apertura.
 - I lettori di schermo ricevono gli aggiornamenti LP e il risultato. Il significato dei comandi è espresso anche tramite testo, non solo colore.
 - Non viene disabilitato lo zoom di accessibilità. `touch-action: manipulation` riduce il doppio tap accidentale sui pulsanti. Nelle finestre lunghe lo scorrimento è consentito; la superficie di gioco usa l'altezza disponibile senza scroll ordinario.
@@ -114,7 +115,7 @@ Riferimenti: [service worker e cache offline](https://developer.mozilla.org/en-U
 
 1. Apri a 390×844 e 320×568: Player 1 sopra, Player 2 sotto, controlli visibili.
 2. Passa a 844×390 e ritorna: pannelli affiancati/incolonnati senza perdita di stato.
-3. Attiva **Ruota P2**: in portrait ruotano anche tastierino e modifica nome di P2; in landscape tutto torna dritto.
+3. Attiva **Ruota P1**: in portrait ruotano il pannello in alto, il tastierino e la modifica nome di P1; P2 resta dritto. In landscape tutto torna dritto.
 4. Premi **−100**: 8000 → 7900.
 5. Nuovo duello; inserisci 1250 nel tastierino Sottrai: 8000 → 6750.
 6. Aggiungi 500: 6750 → 7250.
@@ -125,6 +126,8 @@ Riferimenti: [service worker e cache offline](https://developer.mozilla.org/en-U
 11. Modifica nomi e preferenze, fai alcune mosse e ricarica: stato e Undo ancora disponibili.
 12. Carica via HTTPS/localhost, attendi il service worker, passa offline e ricarica anche dalla sottocartella: pagina, icone e controlli disponibili.
 13. Prova tastiera, Esc, focus, audio disattivato e impostazione di sistema per ridurre le animazioni.
+
+Verifica anche **÷2** in un nuovo duello: inserisci 1250 e dimezza prima di confermare. L'importo diventa 625 e l'anteprima 8000 → 7375. Prova anche 1251 → 625, divisioni ripetute, importo vuoto e modalità Aggiungi. Dopo la conferma, verifica cronologia e Undo.
 
 Per la verifica finale sul dispositivo reale controlla anche notch, barre di Safari, tastiera virtuale e installazione Home: il loro comportamento dipende da browser e sistema operativo.
 

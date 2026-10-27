@@ -76,7 +76,7 @@
 
   function render() {
     const ended = duelEnded();
-    document.body.classList.toggle('rotate-p2', state.rotate);
+    document.body.classList.toggle('rotate-p1', state.rotate);
     state.lp.forEach((lp, i) => {
       const panel = $(`[data-player="${i}"]`);
       const won = ended && lp > 0;
@@ -151,7 +151,7 @@
   }
 
   function openDialog(dialog, player = null) {
-    dialog.classList.toggle('for-p2', player === 1);
+    dialog.classList.toggle('for-p1', player === 0);
     dialog.style.setProperty('--accent', player === 1 ? 'var(--blue)' : 'var(--gold)');
     dialog.showModal();
   }
@@ -174,6 +174,7 @@
     $('#mode-subtract').setAttribute('aria-pressed', String(mode === 'subtract'));
     $('#mode-add').setAttribute('aria-pressed', String(mode === 'add'));
     $('#amount').textContent = digits || '0';
+    $('#halve-amount').disabled = amount === 0;
     $('#preview').textContent = `${before} → ${after} LP`;
     $('#calc-error').textContent = mode === 'add' && before + amount > MAX_LP ? `Limite massimo: ${MAX_LP} LP` : mode === 'subtract' && amount > before ? 'I Life Points si fermeranno a 0.' : '';
     $('#apply').disabled = amount === 0 || before === after;
@@ -183,6 +184,7 @@
   function inputDigit(key) {
     if (key === 'clear') digits = '';
     else if (key === 'backspace') digits = digits.slice(0, -1);
+    else if (key === 'halve') digits = String(Math.floor(Number(digits || 0) / 2)).replace(/^0+/, '');
     else if (/^\d$/.test(key) && digits.length < 6) digits = (digits + key).replace(/^0+/, '');
     updateCalculator();
   }
@@ -226,6 +228,7 @@
     if (event.ctrlKey || event.metaKey || event.altKey) return;
     if (/^\d$/.test(event.key)) { event.preventDefault(); inputDigit(event.key); }
     else if (event.key === 'Backspace' || event.key === 'Delete') { event.preventDefault(); inputDigit(event.key === 'Backspace' ? 'backspace' : 'clear'); }
+    else if (event.key === '/') { event.preventDefault(); inputDigit('halve'); }
     else if (event.key === 'Enter') { event.preventDefault(); $('#apply').click(); }
     else if (event.key === '+' || event.key === '-') { event.preventDefault(); mode = event.key === '+' ? 'add' : 'subtract'; updateCalculator(); }
   });
@@ -240,7 +243,7 @@
   $('#rotate').addEventListener('click', () => {
     state.rotate = !state.rotate;
     saveState(); render();
-    announce(state.rotate ? 'Player 2 ruotato di 180 gradi in modalità verticale.' : 'Rotazione Player 2 disattivata.');
+    announce(state.rotate ? 'Player 1 ruotato di 180 gradi in modalità verticale.' : 'Rotazione Player 1 disattivata.');
   });
   $('#audio-toggle').addEventListener('click', () => { state.audio = !state.audio; saveState(); render(); if (state.audio) sound('add'); });
   all('[data-name]').forEach((button) => button.addEventListener('click', () => {

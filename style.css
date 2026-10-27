@@ -90,6 +90,7 @@ h2 { font-size: 22px; letter-spacing: -.025em; margin: 4px 0; }
 .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
 .keypad button { min-height: 54px; font-size: 24px; background: #ffffff05; }
 .keypad [data-key="clear"], .keypad [data-key="backspace"] { font-size: 19px; color: var(--muted); }
+.halve-amount { width: 100%; margin-top: 8px; color: var(--accent); font-size: 16px; }
 .primary-button { width: 100%; background: var(--accent); border-color: transparent; color: #171a1c; font-size: 16px; font-weight: 700; margin-top: 18px; }
 .primary-button:hover:not(:disabled) { background: color-mix(in srgb, var(--accent) 85%, white); }
 .modal label { font-size: 15px; display: block; margin-bottom: 8px; }
@@ -108,7 +109,7 @@ h2 { font-size: 22px; letter-spacing: -.025em; margin: 4px 0; }
 .sr-only { position: fixed; top: 0; left: 0; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .noscript { position: fixed; inset: 0; background: var(--background); display: grid; place-items: center; padding: 24px; z-index: 10; }
 @media (orientation: portrait) {
-  body.rotate-p2 .player-two .player-inner, body.rotate-p2 .modal.for-p2 { transform: rotate(180deg); }
+  body.rotate-p1 .player-one .player-inner, body.rotate-p1 .modal.for-p1 { transform: rotate(180deg); }
   .player-inner { padding: 12px 28px 18px; gap: 2px; }
   .topbar { min-height: 60px; padding: 4px 20px; }
   .save-status { display: none; }
