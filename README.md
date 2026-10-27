@@ -1,4 +1,4 @@
-# Duel — Yu-Gi-Oh! Life Point Counter
+# Duel — Counter per Yu-Gi-Oh!
 
 https://ilgentz.github.io/duel-counter/
 
@@ -135,9 +135,13 @@ Per la verifica finale sul dispositivo reale controlla anche notch, barre di Saf
 
 ### Layout mobile e app installata
 
-Il layout usa i bordi della finestra e applica le safe area una sola volta. Le dimensioni dei punteggi dipendono dalla riga disponibile nel pannello, tramite container query CSS, anziché dall'altezza totale dello schermo. L'etichetta Life Points è nell'intestazione e lo stato del duello ha una riga dedicata sopra i comandi.
+Il layout mantiene `html`, `body` e `.app-shell` nel flusso normale, con un'altezza esplicita: `100dvh` nel browser e `100vh` nell'app installata. Un controllo nel `<head>` imposta la modalità installata prima del caricamento CSS tramite `navigator.standalone` o `display-mode`, inclusi i casi iOS in cui la media query non corrisponde. Questo evita che un contenitore principale `fixed` venga limitato al viewport più corto riportato da alcune versioni iOS al primo avvio dalla Home. Le safe area vengono applicate una sola volta. Vedi la [segnalazione WebKit sul viewport standalone](https://www2.webkit.org/show_bug.cgi?id=313800).
+
+Le dimensioni dei punteggi dipendono dalla riga disponibile nel pannello, tramite container query CSS, anziché dall'altezza totale dello schermo. L'etichetta Life Points è nell'intestazione e lo stato del duello ha una riga dedicata sopra i comandi. In portrait i comandi rapidi hanno tre colonne uguali, Sottrai/Aggiungi due colonne uguali e la barra inferiore quattro colonne uguali. Il titolo, il sottotitolo e il nome proposto per una nuova icona Home sono **Counter**; un'icona già installata può conservare il nome assegnato al momento dell'aggiunta.
 
 Verificato in WebKit e Chromium su nove dimensioni, inclusi 393×852 con safe area simulate di 59 px sopra e 34 px sotto, Safari a 393×659 e landscape a 852×393. Controllati centratura, assenza di sovrapposizioni, pulsanti di almeno 44 px, rotazione, nomi lunghi e punteggi a sei cifre. La verifica WebKit riproduceva la sovrapposizione del layout precedente; la versione corretta supera gli stessi controlli. Questa emulazione non sostituisce una prova dell'app installata su un iPhone fisico.
+
+Verificati anche tre avvii WebKit (browser, icona iOS rilevata da `navigator.standalone` e installazione rilevata da `display-mode`), con scelta dell'altezza prima del caricamento CSS, pulsanti uniformi, rinomina, dimezzamento, rotazione durante l'inserimento e ripristino della partita. L'aggiornamento della cache da v6 a v7 conserva LP, nome e Undo e funziona offline. L'anomalia nativa per cui iOS riporta un viewport più corto dello schermo non è riproducibile fedelmente in Playwright desktop: la correzione specifica richiede conferma sull'iPhone.
 
 ### Verifiche eseguite sulla prima versione
 

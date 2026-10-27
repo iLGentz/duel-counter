@@ -7,10 +7,17 @@
   <meta name="description" content="Due giocatori. Un telefono. Un contatore Life Points elegante, gratuito e offline per i tuoi duelli di Yu-Gi-Oh!.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Life Point Counter</title>
+  <meta name="apple-mobile-web-app-title" content="Counter">
+  <title>Counter</title>
   <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
   <link rel="manifest" href="./manifest.json">
+  <script>
+    // Set the installed-app height before CSS paints, including legacy iOS icons.
+    if (navigator.standalone === true || window.matchMedia('(display-mode: standalone), (display-mode: fullscreen)').matches) {
+      document.documentElement.classList.add('standalone');
+    }
+  </script>
   <link rel="stylesheet" href="./style.css">
   <script src="./app.js" defer></script>
 </head>
@@ -27,7 +34,7 @@
   </svg>
   <div class="app-shell">
     <header class="topbar">
-      <div class="brand"><svg class="icon brand-mark"><use href="#i-mark"/></svg><h1>DUEL<span>Life Point Counter</span></h1></div>
+      <div class="brand"><svg class="icon brand-mark"><use href="#i-mark"/></svg><h1>DUEL<span>Counter</span></h1></div>
       <div class="top-actions"><span id="save-status" class="save-status">Sul dispositivo</span><button id="audio-toggle" class="audio-toggle" type="button" aria-label="Attiva audio" aria-pressed="false"><svg class="icon"><use href="#i-sound"/></svg><span id="audio-label">Audio off</span></button></div>
     </header>
     <main class="arena" aria-label="Life Points dei due giocatori">

@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "Duel — Life Point Counter",
-  "short_name": "Duel",
+  "name": "Counter",
+  "short_name": "Counter",
   "description": "Contatore Life Points per due giocatori sullo stesso smartphone.",
   "lang": "it",
   "start_url": "./",

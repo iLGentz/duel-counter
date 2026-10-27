@@ -9,6 +9,7 @@
   --blue: #86cad6;
   --radius: 14px;
   --touch: 48px;
+  --app-height: 100vh;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-right: env(safe-area-inset-right, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -17,7 +18,16 @@
   font-synthesis: none;
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; overscroll-behavior: none; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+@supports (height: 100dvh) {
+  :root { --app-height: 100dvh; }
+}
+/* iOS Home Screen apps can under-report dvh by the status-bar height on launch.
+   Keep roots in normal flow: fixed/inset roots can clip to that shorter viewport. */
+:root.standalone { --app-height: 100vh; }
+@media (display-mode: standalone), (display-mode: fullscreen) {
+  :root { --app-height: 100vh; }
+}
+html, body { margin: 0; width: 100%; height: var(--app-height); overflow: hidden; overscroll-behavior: none; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body { background: var(--background); color: var(--text); user-select: none; -webkit-user-select: none; }
 button, input { font: inherit; }
 button { cursor: pointer; color: inherit; border: 1px solid var(--line); background: #ffffff05; border-radius: 10px; min-height: var(--touch); touch-action: manipulation; transition: background .15s, transform .12s; }
@@ -28,8 +38,7 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--gold); outl
 button[hidden], [hidden] { display: none !important; }
 .icon-library { position: absolute; width: 0; height: 0; overflow: hidden; }
 .icon { width: 21px; height: 21px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-/* Inset positioning fills the installed iOS app without subtracting its safe areas twice. */
-.app-shell { position: fixed; inset: 0; width: 100%; max-width: 1800px; margin-inline: auto; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left); }
+.app-shell { position: relative; width: 100%; height: var(--app-height); max-width: 1800px; margin-inline: auto; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left); }
 .topbar { min-height: 68px; padding: 8px 28px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); }
 .brand, .top-actions { display: flex; align-items: center; gap: 12px; }
 .brand-mark { color: var(--gold); width: 30px; height: 30px; }
@@ -115,15 +124,17 @@ h2 { font-size: 22px; letter-spacing: -.025em; margin: 4px 0; }
 .noscript { position: fixed; inset: 0; background: var(--background); display: grid; place-items: center; padding: 24px; z-index: 10; }
 @media (orientation: portrait) {
   body.rotate-p1 .player-one .player-inner, body.rotate-p1 .modal.for-p1 { transform: rotate(180deg); }
-  .player-inner { padding: 12px 24px 16px; gap: 8px; }
+  .player-inner { padding: 12px 20px 20px; gap: 10px; }
+  .player::before, .player::after { display: none; }
   .player-heading { gap: 8px; }
   .name-button { min-height: 44px; }
-  .controls { gap: 6px; }
-  .controls button { min-height: 44px; }
+  .controls, .quick-actions, .main-actions { gap: 8px; }
+  .controls button { min-height: 48px; padding: 0 8px; }
   .topbar { min-height: 60px; padding: 4px 20px; }
   .save-status { display: none; }
-  .toolbar { padding: 5px 8px; gap: 0; min-height: 68px; }
-  .toolbar button { flex: 1 1 0; min-width: 0; flex-direction: column; gap: 5px; font-size: 12px; padding: 4px 2px; white-space: nowrap; }
+  .toolbar { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 8px 12px; gap: 6px; min-height: 72px; }
+  .toolbar button { min-width: 0; min-height: 54px; flex-direction: column; gap: 6px; font-size: 11px; padding: 5px 2px; border: 1px solid var(--line); background: #ffffff03; white-space: nowrap; }
+  .toolbar .icon { width: 19px; height: 19px; }
   .count { position: absolute; top: 0; right: 12%; }
   .player-tag { font-size: 10px; }
 }
@@ -137,7 +148,8 @@ h2 { font-size: 22px; letter-spacing: -.025em; margin: 4px 0; }
 @media (orientation: portrait) and (max-height: 740px) {
   .topbar { min-height: 50px; padding-block: 0; }
   h1 span { display: none; }
-  .toolbar { min-height: 60px; }
+  .toolbar { min-height: 60px; padding-block: 4px; }
+  .toolbar button { min-height: 50px; }
   .player-inner { padding: 5px 24px 10px; gap: 4px; }
   .player-heading { gap: 8px; }
   .name-button { min-height: 44px; font-size: 16px; }
@@ -184,7 +196,7 @@ h2 { font-size: 22px; letter-spacing: -.025em; margin: 4px 0; }
   .topbar { padding-inline: 14px; }
   .brand { gap: 6px; }
   .main-actions button { font-size: 14px; }
-  .main-actions button span { margin-right: 3px; }
+  .main-actions button { gap: 6px; }
 }
 @media (orientation: portrait) and (max-height: 600px) {
   .score, .score.long-score { font-size: 50px; padding-bottom: 0; }
