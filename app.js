@@ -174,7 +174,7 @@
     $('#mode-subtract').setAttribute('aria-pressed', String(mode === 'subtract'));
     $('#mode-add').setAttribute('aria-pressed', String(mode === 'add'));
     $('#amount').textContent = digits || '0';
-    $('#halve-amount').disabled = amount === 0;
+    $('#halve-amount').disabled = duelEnded();
     $('#preview').textContent = `${before} → ${after} LP`;
     $('#calc-error').textContent = mode === 'add' && before + amount > MAX_LP ? `Limite massimo: ${MAX_LP} LP` : mode === 'subtract' && amount > before ? 'I Life Points si fermeranno a 0.' : '';
     $('#apply').disabled = amount === 0 || before === after;
@@ -184,7 +184,10 @@
   function inputDigit(key) {
     if (key === 'clear') digits = '';
     else if (key === 'backspace') digits = digits.slice(0, -1);
-    else if (key === 'halve') digits = String(Math.floor(Number(digits || 0) / 2)).replace(/^0+/, '');
+    else if (key === 'halve') {
+      mode = 'subtract';
+      digits = String(Math.ceil(state.lp[selectedPlayer] / 2));
+    }
     else if (/^\d$/.test(key) && digits.length < 6) digits = (digits + key).replace(/^0+/, '');
     updateCalculator();
   }

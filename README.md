@@ -12,7 +12,7 @@ Un contatore Life Points per due persone che condividono lo stesso smartphone. I
 - Portrait: Player 1 sopra e Player 2 sotto. **Ruota P1** ruota di 180° pannello, controlli e finestre personali del primo giocatore, per chi siede di fronte. La rotazione è inizialmente disattivata.
 - Landscape: Player 1 a sinistra e Player 2 a destra, entrambi dritti. La preferenza di rotazione torna attiva passando in portrait. Non serve ricaricare.
 - Sottrazioni immediate di 100, 500 e 1000 LP; tastierino per sottrarre o aggiungere importi personalizzati. Anche toccare il numero apre il tastierino.
-- **÷2 · Dimezza** divide per due l'importo digitato, anche più volte, aggiornando l'anteprima senza applicare la modifica ai LP. Gli importi dispari vengono arrotondati per difetto; senza importo il tasto è disattivato.
+- **÷2 · Dimezza LP** prepara il dimezzamento dei LP attuali del giocatore selezionato (8000 → 4000), indipendentemente dall'importo digitato e dalla modalità Aggiungi/Sottrai. Funziona anche con il tastierino vuoto: mostra l'importo da sottrarre e l'anteprima, poi **Conferma** applica la modifica. I LP risultanti vengono arrotondati per difetto se dispari (1251 → 625).
 - Anteprima del risultato prima della conferma. Sei cifre al massimo; intervallo LP 0–999999. Gli importi eccessivi si fermano al limite, annunciato nel tastierino.
 - Nomi modificabili toccandoli, fino a 24 caratteri.
 - Undo consecutivi e cronologia delle variazioni effettive con nome al momento dell'azione, orario e risultato.
@@ -100,7 +100,7 @@ Riferimenti: [service worker e cache offline](https://developer.mozilla.org/en-U
 ## Tastiera e accessibilità
 
 - **Tab / Shift+Tab**: naviga tra i controlli; **Invio / Spazio**: attiva i pulsanti.
-- Nel tastierino: cifre **0–9**, **Backspace**, **Delete** per cancellare tutto, **+ / −** per scegliere l'operazione, **/** per dimezzare l'importo, **Invio** per confermare.
+- Nel tastierino: cifre **0–9**, **Backspace**, **Delete** per cancellare tutto, **+ / −** per scegliere l'operazione, **/** per preparare il dimezzamento dei LP attuali, **Invio** per confermare.
 - **Esc** chiude un dialogo senza applicare modifiche. I dialoghi mantengono il focus al loro interno e lo restituiscono al controllo di apertura.
 - I lettori di schermo ricevono gli aggiornamenti LP e il risultato. Il significato dei comandi è espresso anche tramite testo, non solo colore.
 - Non viene disabilitato lo zoom di accessibilità. `touch-action: manipulation` riduce il doppio tap accidentale sui pulsanti. Nelle finestre lunghe lo scorrimento è consentito; la superficie di gioco usa l'altezza disponibile senza scroll ordinario.
@@ -129,7 +129,7 @@ Riferimenti: [service worker e cache offline](https://developer.mozilla.org/en-U
 12. Carica via HTTPS/localhost, attendi il service worker, passa offline e ricarica anche dalla sottocartella: pagina, icone e controlli disponibili.
 13. Prova tastiera, Esc, focus, audio disattivato e impostazione di sistema per ridurre le animazioni.
 
-Verifica anche **÷2** in un nuovo duello: inserisci 1250 e dimezza prima di confermare. L'importo diventa 625 e l'anteprima 8000 → 7375. Prova anche 1251 → 625, divisioni ripetute, importo vuoto e modalità Aggiungi. Dopo la conferma, verifica cronologia e Undo.
+Verifica anche **÷2** in un nuovo duello: con il tastierino vuoto, premi **Dimezza LP**. L'importo da sottrarre diventa 4000 e l'anteprima 8000 → 4000; solo **Conferma** modifica i LP. Prova anche dopo aver digitato 1250 e dalla modalità Aggiungi: l'anteprima deve sempre essere 8000 → 4000. Dopo la conferma, verifica cronologia e Undo. Prova entrambi i giocatori, un secondo dimezzamento confermato (4000 → 2000), LP dispari (1251 → 625) e 1 LP → 0 con fine duello.
 
 Per la verifica finale sul dispositivo reale controlla anche notch, barre di Safari, tastiera virtuale e installazione Home: il loro comportamento dipende da browser e sistema operativo.
 
