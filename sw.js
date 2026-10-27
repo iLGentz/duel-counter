@@ -1,7 +1,7 @@
 'use strict';
 // Increment this version whenever a cached application file changes.
 const CACHE_PREFIX = `duel-counter:${new URL(self.registration.scope).pathname}:`;
-const CACHE_NAME = `${CACHE_PREFIX}v5`;
+const CACHE_NAME = `${CACHE_PREFIX}v6`;
 const APP_FILES = ['./', './index.html', './style.css', './app.js', './manifest.json', './icons/icon.svg', './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png', './icons/apple-touch-icon.png'];
 
 self.addEventListener('install', (event) => {

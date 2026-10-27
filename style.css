@@ -9,11 +9,15 @@
   --blue: #86cad6;
   --radius: 14px;
   --touch: 48px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
   font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   font-synthesis: none;
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; overscroll-behavior: none; }
+html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; overscroll-behavior: none; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body { background: var(--background); color: var(--text); user-select: none; -webkit-user-select: none; }
 button, input { font: inherit; }
 button { cursor: pointer; color: inherit; border: 1px solid var(--line); background: #ffffff05; border-radius: 10px; min-height: var(--touch); touch-action: manipulation; transition: background .15s, transform .12s; }
@@ -24,7 +28,8 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--gold); outl
 button[hidden], [hidden] { display: none !important; }
 .icon-library { position: absolute; width: 0; height: 0; overflow: hidden; }
 .icon { width: 21px; height: 21px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-.app-shell { height: 100vh; height: 100dvh; max-width: 1800px; margin: auto; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
+/* Inset positioning fills the installed iOS app without subtracting its safe areas twice. */
+.app-shell { position: fixed; inset: 0; width: 100%; max-width: 1800px; margin-inline: auto; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left); }
 .topbar { min-height: 68px; padding: 8px 28px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); }
 .brand, .top-actions { display: flex; align-items: center; gap: 12px; }
 .brand-mark { color: var(--gold); width: 30px; height: 30px; }
@@ -41,12 +46,12 @@ h1 span { display: block; font-size: 12px; font-weight: 400; letter-spacing: .04
 .player::after { bottom: 16px; right: 16px; border-bottom: 1px solid; border-right: 1px solid; color: var(--accent); }
 .player-inner { height: 100%; min-height: 0; max-width: 620px; margin: auto; padding: 20px 40px; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 8px; }
 .player-heading { display: flex; align-items: center; gap: 12px; min-width: 0; }
-.player-index { color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); font-family: ui-monospace, monospace; font-size: 12px; padding: 7px; border-radius: 6px; }
-.name-button { min-width: 0; display: flex; align-items: center; justify-content: center; gap: 9px; padding: 0 4px; border: 0; background: none; font-size: 18px; font-weight: 600; }
+.player-index { flex-shrink: 0; color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); font-family: ui-monospace, monospace; font-size: 12px; padding: 7px; border-radius: 6px; }
+.name-button { min-width: 0; flex: 1; display: flex; align-items: center; justify-content: flex-start; gap: 9px; padding: 0 4px; border: 0; background: none; font-size: 18px; font-weight: 600; }
 .name-button span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .name-button .icon { width: 14px; height: 14px; color: var(--muted); }
-.player-tag { margin-left: auto; color: var(--muted); font-size: 12px; letter-spacing: .15em; }
-.score-block { min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.player-tag { flex-shrink: 0; margin-left: auto; color: var(--muted); font-size: 10px; letter-spacing: .12em; white-space: nowrap; }
+.score-block { min-height: 0; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
 .score-block > * { flex-shrink: 0; }
 .eyebrow { color: var(--muted); font-size: 12px; letter-spacing: .22em; font-weight: 600; }
 .score { display: block; border: 0; min-height: 0; background: none; color: var(--accent); font-size: clamp(68px, 12dvh, 132px); line-height: 1.05; font-weight: 750; letter-spacing: -.065em; font-variant-numeric: tabular-nums; padding: 0 10px 8px 0; text-shadow: 0 0 45px color-mix(in srgb, var(--accent) 10%, transparent); }
@@ -54,13 +59,13 @@ h1 span { display: block; font-size: 12px; font-weight: 400; letter-spacing: .04
 .score:disabled { opacity: 1; }
 .life-track { width: 120px; height: 3px; background: #ffffff0c; border-radius: 4px; overflow: hidden; }
 .life-track span { display: block; width: 100%; height: 100%; background: var(--accent); transition: width .25s ease; }
-.player-status { font-size: 12px; min-height: 17px; margin: 10px 0 0; color: var(--muted); text-align: center; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.player-status { font-size: 12px; line-height: 17px; min-height: 17px; margin: 0; color: var(--muted); text-align: center; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .controls { display: grid; gap: 8px; }
 .quick-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .quick-actions button { color: var(--muted); font-size: 16px; font-variant-numeric: tabular-nums; }
 .main-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.main-actions button { font-weight: 600; font-size: 15px; }
-.main-actions button span { font-size: 22px; font-weight: 400; vertical-align: -1px; margin-right: 6px; }
+.main-actions button { display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; font-size: 15px; }
+.main-actions button span { font-size: 22px; line-height: 1; font-weight: 400; }
 .main-actions .subtract { background: color-mix(in srgb, var(--accent) 11%, transparent); border-color: color-mix(in srgb, var(--accent) 28%, transparent); color: var(--accent); }
 .versus { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid #394043; border-radius: 50%; background: var(--background); width: 36px; height: 36px; display: grid; place-items: center; color: var(--muted); font-size: 10px; font-weight: 600; letter-spacing: .1em; z-index: 1; pointer-events: none; }
 .toolbar { min-height: 76px; border-top: 1px solid var(--line); display: flex; justify-content: center; align-items: stretch; padding: 8px 20px; gap: 10px; background: #121719; }
@@ -110,11 +115,15 @@ h2 { font-size: 22px; letter-spacing: -.025em; margin: 4px 0; }
 .noscript { position: fixed; inset: 0; background: var(--background); display: grid; place-items: center; padding: 24px; z-index: 10; }
 @media (orientation: portrait) {
   body.rotate-p1 .player-one .player-inner, body.rotate-p1 .modal.for-p1 { transform: rotate(180deg); }
-  .player-inner { padding: 12px 28px 18px; gap: 2px; }
+  .player-inner { padding: 12px 24px 16px; gap: 8px; }
+  .player-heading { gap: 8px; }
+  .name-button { min-height: 44px; }
+  .controls { gap: 6px; }
+  .controls button { min-height: 44px; }
   .topbar { min-height: 60px; padding: 4px 20px; }
   .save-status { display: none; }
   .toolbar { padding: 5px 8px; gap: 0; min-height: 68px; }
-  .toolbar button { flex: 1; flex-direction: column; gap: 5px; font-size: 12px; padding: 4px; }
+  .toolbar button { flex: 1 1 0; min-width: 0; flex-direction: column; gap: 5px; font-size: 12px; padding: 4px 2px; white-space: nowrap; }
   .count { position: absolute; top: 0; right: 12%; }
   .player-tag { font-size: 10px; }
 }
@@ -129,7 +138,7 @@ h2 { font-size: 22px; letter-spacing: -.025em; margin: 4px 0; }
   .topbar { min-height: 50px; padding-block: 0; }
   h1 span { display: none; }
   .toolbar { min-height: 60px; }
-  .player-inner { padding: 5px 24px 10px; }
+  .player-inner { padding: 5px 24px 10px; gap: 4px; }
   .player-heading { gap: 8px; }
   .name-button { min-height: 44px; font-size: 16px; }
   .score { font-size: clamp(54px, 11dvh, 80px); line-height: 1; padding-bottom: 3px; }
@@ -191,4 +200,16 @@ h2 { font-size: 22px; letter-spacing: -.025em; margin: 4px 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+/* Size the score from its allocated row, after headings, controls and safe areas. */
+@supports (font-size: 1cqh) {
+  .score-block { container-type: size; container-name: score; }
+  .score, .score.long-score { font-size: clamp(24px, min(27cqw, calc(100cqh - 36px)), 150px); line-height: 1; padding: 0; }
+  .score.long-score { font-size: clamp(24px, min(18cqw, calc(100cqh - 36px)), 100px); }
+  .player-status { margin-top: 0; }
+  @container score (max-height: 90px) {
+    .life-track { display: none; }
+    .score, .score.long-score { font-size: clamp(24px, min(27cqw, calc(100cqh - 25px)), 64px); }
+    .score.long-score { font-size: clamp(24px, min(18cqw, calc(100cqh - 25px)), 64px); }
+  }
 }

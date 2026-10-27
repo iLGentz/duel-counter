@@ -21,7 +21,7 @@ Un contatore Life Points per due persone che condividono lo stesso smartphone. I
 - Audio sintetizzato con Web Audio API, inizialmente disattivato e sempre opzionale.
 - Salvataggio automatico locale di LP, cronologia, nomi, audio e rotazione dopo ogni modifica. Nessun dato viene inviato a un server.
 - PWA installabile, offline dopo il primo caricamento completo tramite HTTPS o localhost.
-- Safe area, altezza `100dvh`, pulsanti touch, focus visibile, dialoghi con gestione del focus e supporto a movimento ridotto.
+- Layout a piena finestra con aree di sicurezza per Dynamic Island e indicatore Home. I punteggi si adattano allo spazio effettivo dei pannelli; nomi, stato del duello e pulsanti occupano righe separate. Pulsanti touch, focus visibile, dialoghi con gestione del focus e supporto a movimento ridotto.
 
 ## Struttura
 
@@ -132,6 +132,12 @@ Riferimenti: [service worker e cache offline](https://developer.mozilla.org/en-U
 Verifica anche **÷2** in un nuovo duello: con il tastierino vuoto, premi **Dimezza LP**. L'importo da sottrarre diventa 4000 e l'anteprima 8000 → 4000; solo **Conferma** modifica i LP. Prova anche dopo aver digitato 1250 e dalla modalità Aggiungi: l'anteprima deve sempre essere 8000 → 4000. Dopo la conferma, verifica cronologia e Undo. Prova entrambi i giocatori, un secondo dimezzamento confermato (4000 → 2000), LP dispari (1251 → 625) e 1 LP → 0 con fine duello.
 
 Per la verifica finale sul dispositivo reale controlla anche notch, barre di Safari, tastiera virtuale e installazione Home: il loro comportamento dipende da browser e sistema operativo.
+
+### Layout mobile e app installata
+
+Il layout usa i bordi della finestra e applica le safe area una sola volta. Le dimensioni dei punteggi dipendono dalla riga disponibile nel pannello, tramite container query CSS, anziché dall'altezza totale dello schermo. L'etichetta Life Points è nell'intestazione e lo stato del duello ha una riga dedicata sopra i comandi.
+
+Verificato in WebKit e Chromium su nove dimensioni, inclusi 393×852 con safe area simulate di 59 px sopra e 34 px sotto, Safari a 393×659 e landscape a 852×393. Controllati centratura, assenza di sovrapposizioni, pulsanti di almeno 44 px, rotazione, nomi lunghi e punteggi a sei cifre. La verifica WebKit riproduceva la sovrapposizione del layout precedente; la versione corretta supera gli stessi controlli. Questa emulazione non sostituisce una prova dell'app installata su un iPhone fisico.
 
 ### Verifiche eseguite sulla prima versione
 
